@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/ITorgoveckiy/rise-up-matrix-tests/issues"
   },
-  "homepage": "https://github.com/ITorgoveckiy/rise-up-matrix-tests#readme"
+  "homepage": "https://github.com/ITorgoveckiy/rise-up-matrix-tests#readme",
+  "devDependencies": {
+    "jest": "^26.6.3"
+  }
 }
