@@ -151,6 +151,7 @@ describe('LinkedList', () => {
     afterAll(() => {
       spyConsoleLog.mockRestore();
     });
+
     test.each([
       [3, [1, 2, 3]],
       [2, [4, 5]],
@@ -166,5 +167,21 @@ describe('LinkedList', () => {
         );
       }
     );
+  });
+
+  describe.each([
+    ['getLength', [0, 1]],
+    ['isEmpty', [true, false]],
+  ])('.%s', (method, expected) => {
+    test(`should return ${expected[0]}`, () => {
+      const linkedList = new LinkedList();
+      expect(linkedList[method]()).toBe(expected[0]);
+    });
+
+    test(`should return ${expected[1]}`, () => {
+      const linkedList = new LinkedList();
+      linkedList.addToTheEnd(1);
+      expect(linkedList[method]()).toBe(expected[1]);
+    });
   });
 });

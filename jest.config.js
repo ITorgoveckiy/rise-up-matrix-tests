@@ -20,29 +20,36 @@ module.exports = {
   // collectCoverage: false,
 
   // An array of glob patterns indicating a set of files for which coverage information should be collected
-  // collectCoverageFrom: undefined,
+  collectCoverageFrom: [
+    '<rootDir>/src/**/*.js',
+    "!**/node_modules/**"
+  ],
 
   // The directory where Jest should output its coverage files
-  // coverageDirectory: undefined,
+  coverageDirectory: "<rootDir>/coverage/",
 
   // An array of regexp pattern strings used to skip coverage collection
-  // coveragePathIgnorePatterns: [
-  //   "/node_modules/"
-  // ],
+  coveragePathIgnorePatterns: [
+    "/node_modules/"
+  ],
 
   // Indicates which provider should be used to instrument code for coverage
-  // coverageProvider: "babel",
+  coverageProvider: "babel",
 
   // A list of reporter names that Jest uses when writing coverage reports
-  // coverageReporters: [
-  //   "json",
-  //   "text",
-  //   "lcov",
-  //   "clover"
-  // ],
+  coverageReporters: [
+    "lcov"
+  ],
 
   // An object that configures minimum threshold enforcement for coverage results
-  // coverageThreshold: undefined,
+  coverageThreshold: {
+    "global": {
+      "branches": 0,
+      "functions": 0,
+      "lines": 0,
+      "statements": 0
+    }
+  },
 
   // A path to a custom dependency extractor
   // dependencyExtractor: undefined,
@@ -51,7 +58,9 @@ module.exports = {
   // errorOnDeprecated: false,
 
   // Force coverage collection from ignored files using an array of glob patterns
-  // forceCoverageMatch: [],
+  forceCoverageMatch: [
+    '**/*.spec.js'
+  ],
 
   // A path to a module which exports an async function that is triggered once before all test suites
   // globalSetup: undefined,
