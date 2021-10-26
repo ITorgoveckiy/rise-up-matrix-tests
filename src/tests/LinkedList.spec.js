@@ -141,6 +141,20 @@ describe('LinkedList', () => {
         expect(linkedList.removeFromPosition(position)).toBe(expected);
       }
     );
+    test(`should return 5, because position => 0 and added one item with value => 5`, () => {
+      const expected = 5;
+      const linkedList = new LinkedList();
+      linkedList.addToTheEnd(expected);
+      expect(linkedList.removeFromPosition(0)).toBe(expected);
+    });
+
+    test(`should return 3, because position => 1 and added two items`, () => {
+      const expected = 3;
+      const linkedList = new LinkedList();
+      linkedList.addToTheEnd(1);
+      linkedList.addToTheEnd(expected);
+      expect(linkedList.removeFromPosition(1)).toBe(expected);
+    });
   });
 
   describe('.print', () => {
