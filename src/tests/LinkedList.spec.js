@@ -182,6 +182,46 @@ describe('LinkedList', () => {
       }
     );
   });
+  describe('.getIndexOf', () => {
+    test('should return index 1', () => {
+      const linkedList = new LinkedList();
+      linkedList.addToTheEnd(2);
+      linkedList.addToTheEnd(4);
+      expect(linkedList.getIndexOf(4)).toBe(1);
+    });
+    test('should return index -1', () => {
+      const linkedList = new LinkedList();
+      linkedList.addToTheEnd(2);
+      linkedList.addToTheEnd(4);
+      expect(linkedList.getIndexOf(3)).toBe(-1);
+    });
+  });
+
+  describe('.removeElementByValue', () => {
+    test('should return ', () => {
+      const linkedList = new LinkedList();
+      linkedList.addToTheEnd(2);
+      linkedList.addToTheEnd(4);
+      expect(linkedList.removeElementByValue(4)).toBe(4);
+    });
+  });
+
+  describe('.getNodeByPosition', () => {
+    test('should return "Incorrect value of position"', () => {
+      const linkedList = new LinkedList();
+      linkedList.addToTheEnd(2);
+      expect(linkedList.getNodeByPosition(2)).toBe(
+        'Incorrect value of position'
+      );
+    });
+
+    test('should return last item value equal 3', () => {
+      const linkedList = new LinkedList();
+      linkedList.addToTheEnd(2);
+      linkedList.addToTheEnd(3);
+      expect(linkedList.getNodeByPosition(1)).toBe(3);
+    });
+  });
 
   describe.each([
     ['getLength', [0, 1]],
