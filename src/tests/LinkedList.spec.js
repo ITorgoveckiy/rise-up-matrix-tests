@@ -183,22 +183,19 @@ describe('LinkedList', () => {
     );
   });
   describe('.getIndexOf', () => {
-    test('should return index 1', () => {
+    test.each([
+      [1, 4],
+      [-1, 3],
+    ])('should return index %i', (expected, value) => {
       const linkedList = new LinkedList();
       linkedList.addToTheEnd(2);
       linkedList.addToTheEnd(4);
-      expect(linkedList.getIndexOf(4)).toBe(1);
-    });
-    test('should return index -1', () => {
-      const linkedList = new LinkedList();
-      linkedList.addToTheEnd(2);
-      linkedList.addToTheEnd(4);
-      expect(linkedList.getIndexOf(3)).toBe(-1);
+      expect(linkedList.getIndexOf(value)).toBe(expected);
     });
   });
 
   describe('.removeElementByValue', () => {
-    test('should return ', () => {
+    test('should return removed value', () => {
       const linkedList = new LinkedList();
       linkedList.addToTheEnd(2);
       linkedList.addToTheEnd(4);
