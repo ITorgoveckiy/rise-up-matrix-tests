@@ -8,231 +8,289 @@ Node.mockImplementation((value) => ({
   next: null,
 }));
 
-const addToTheEndCases = [
-  [
-    {
-      head: {
-        value: 1,
-        next: null,
-      },
-      length: 1,
-    },
-    [1],
-    1,
-  ],
-  [
-    {
-      head: {
-        value: 1,
-        next: {
-          value: 2,
-          next: null,
-        },
-      },
-      length: 2,
-    },
-    [1, 2],
-    3,
-  ],
-  [
-    {
-      head: {
-        value: 1,
-        next: {
-          value: 2,
-          next: {
-            value: 3,
-            next: null,
-          },
-        },
-      },
-      length: 3,
-    },
-    [1, 2, 3],
-    5,
-  ],
-];
-const insertInPositionCases = [
-  [
-    {
-      head: {
-        value: 4,
-        next: {
-          value: 1,
-          next: null,
-        },
-      },
-      length: 2,
-    },
-    0,
-    [1],
-  ],
-  [
-    {
-      head: {
-        value: 1,
-        next: {
-          value: 2,
-          next: {
-            value: 4,
-            next: {
-              value: 3,
-              next: null,
-            },
-          },
-        },
-      },
-      length: 4,
-    },
-    2,
-    [1, 2, 3],
-  ],
-];
-
 describe('LinkedList', () => {
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
+  test('constructor initialization', () => {
+    const linkedList = new LinkedList();
 
-  test('should return { head: null, length: 0 }', () => {
-    const expected = { head: null, length: 0 };
-    expect(new LinkedList()).toEqual(expected);
+    expect(linkedList).toBeInstanceOf(LinkedList);
   });
 
   describe('.addToTheEnd', () => {
-    test.each(addToTheEndCases)(
-      'should change linkedList to %o, because this.length %i in case %#',
-      (expected, callStack, calledTimes) => {
-        const linkedList = new LinkedList();
-        callStack.forEach((count) => linkedList.addToTheEnd(count));
-        expect(Node).toHaveBeenCalledTimes(calledTimes);
-        expect(linkedList).toEqual(expected);
-      }
-    );
+    test('should added list with value => 5 at position 0', () => {
+      const linkedList = new LinkedList();
+      const testValue = 5;
+
+      linkedList.addToTheEnd(testValue);
+
+      const lastValue = linkedList.getNodeByPosition(0);
+
+      expect(lastValue).toEqual(testValue);
+    });
+
+    test('should added list with value => 6 at position 1', () => {
+      const linkedList = new LinkedList();
+      const testValue = 6;
+
+      linkedList.addToTheEnd(5);
+      linkedList.addToTheEnd(testValue);
+
+      const lastValue = linkedList.getNodeByPosition(1);
+
+      expect(lastValue).toEqual(testValue);
+    });
   });
-
   describe('.insertInPosition', () => {
-    test.each([1, -1])(
-      'should return "Incorrect value of position", because position => %i in case %#',
-      (position) => {
-        const linkedList = new LinkedList();
-        const expected = 'Incorrect value of position';
-        expect(linkedList.insertInPosition(position, 1)).toBe(expected);
-      }
-    );
+    test('should insert list at 0 position', () => {
+      const linkedList = new LinkedList();
+      const expectedFirstValue = 1;
+      const expectedSecondValue = 6;
+      const insertPosition = 0;
 
-    test.each(insertInPositionCases)(
-      'should change linkedList to %o, because position %i in case %# ',
-      (expected, position, callStack) => {
-        const linkedList = new LinkedList();
-        callStack.forEach((count) => linkedList.addToTheEnd(count));
-        linkedList.insertInPosition(position, 4);
-        expect(linkedList).toEqual(expected);
-      }
-    );
+      linkedList.addToTheEnd(5);
+      linkedList.addToTheEnd(expectedSecondValue);
+      linkedList.insertInPosition(insertPosition, expectedFirstValue);
+
+      const firstValue = linkedList.getNodeByPosition(insertPosition);
+      const lastValue = linkedList.getNodeByPosition(2);
+
+      expect(firstValue).toEqual(expectedFirstValue);
+      expect(lastValue).toEqual(expectedSecondValue);
+    });
+
+    test('should insert list at 1 position', () => {
+      const linkedList = new LinkedList();
+      const expectedFirstValue = 2;
+      const expectedSecondValue = 7;
+      const insertPosition = 1;
+
+      linkedList.addToTheEnd(5);
+      linkedList.addToTheEnd(expectedSecondValue);
+      linkedList.insertInPosition(insertPosition, expectedFirstValue);
+
+      const firstValue = linkedList.getNodeByPosition(insertPosition);
+      const lastValue = linkedList.getNodeByPosition(2);
+
+      expect(firstValue).toEqual(expectedFirstValue);
+      expect(lastValue).toEqual(expectedSecondValue);
+    });
+
+    test.skip('should throw error because incorrect position -1', () => {
+      const linkedList = new LinkedList();
+
+      expect(() => linkedList.insertInPosition(-1, 5)).toThrow(
+        /^Incorrect position$/
+      );
+    });
+    test.skip('should throw error because position is not number', () => {
+      const linkedList = new LinkedList();
+
+      expect(() => linkedList.insertInPosition('one', 5)).toThrow(
+        /^Incorrect position$/
+      );
+    });
+    test.skip('should throw error because position 3 greater than the length of the list', () => {
+      const linkedList = new LinkedList();
+
+      expect(() => linkedList.insertInPosition(3, 5)).toThrow(
+        /^Incorrect position$/
+      );
+    });
   });
 
   describe('.removeFromPosition', () => {
-    test.each([1, -1])(
-      'should return "Incorrect value of position", because position => %i in case %#',
-      (position) => {
-        const linkedList = new LinkedList();
-        const expected = 'Incorrect value of position';
-        expect(linkedList.removeFromPosition(position)).toBe(expected);
-      }
-    );
-    test(`should return 5, because position => 0 and added one item with value => 5`, () => {
-      const expected = 5;
+    test.skip('should return error because list is empty', () => {
       const linkedList = new LinkedList();
-      linkedList.addToTheEnd(expected);
-      expect(linkedList.removeFromPosition(0)).toBe(expected);
+
+      linkedList.removeFromPosition(0);
+
+      expect(() => linkedList.removeFromPosition(0)).toThrow(/^List is empty$/);
+    });
+    test('should return first value', () => {
+      const linkedList = new LinkedList();
+      const expectedValue = 2;
+
+      linkedList.addToTheEnd(expectedValue);
+
+      const removeValue = linkedList.removeFromPosition(0);
+
+      expect(removeValue).toEqual(expectedValue);
     });
 
-    test(`should return 3, because position => 1 and added two items`, () => {
-      const expected = 3;
+    test('should return value at position 2', () => {
       const linkedList = new LinkedList();
-      linkedList.addToTheEnd(1);
-      linkedList.addToTheEnd(expected);
-      expect(linkedList.removeFromPosition(1)).toBe(expected);
-    });
-  });
+      const expectedValue = 2;
 
-  describe('.print', () => {
-    const spyConsoleLog = jest
-      .spyOn(console, 'log')
-      .mockImplementation(() => {});
-
-    afterAll(() => {
-      spyConsoleLog.mockRestore();
-    });
-
-    test.each([
-      [3, [1, 2, 3]],
-      [2, [4, 5]],
-    ])(
-      'should call console.log %i times in case %# ',
-      (expected, callStack) => {
-        const linkedList = new LinkedList();
-        callStack.forEach((count) => linkedList.addToTheEnd(count));
-        linkedList.print();
-        expect(spyConsoleLog).toHaveBeenCalledTimes(expected);
-        expect(spyConsoleLog).toHaveBeenLastCalledWith(
-          `Node: ${callStack[callStack.length - 1]}`
-        );
-      }
-    );
-  });
-  describe('.getIndexOf', () => {
-    test.each([
-      [1, 4],
-      [-1, 3],
-    ])('should return index %i', (expected, value) => {
-      const linkedList = new LinkedList();
-      linkedList.addToTheEnd(2);
       linkedList.addToTheEnd(4);
-      expect(linkedList.getIndexOf(value)).toBe(expected);
+      linkedList.addToTheEnd(3);
+      linkedList.addToTheEnd(expectedValue);
+
+      const removeValue = linkedList.removeFromPosition(2);
+
+      expect(removeValue).toEqual(expectedValue);
+    });
+
+    test.skip('should throw error because position incorrect', () => {
+      const linkedList = new LinkedList();
+
+      expect(() => linkedList.removeFromPosition(-1)).toThrow(
+        /^Incorrect position$/
+      );
+    });
+
+    test.skip('should throw error because position 3 greater than the length of the list', () => {
+      const linkedList = new LinkedList();
+
+      linkedList.addToTheEnd(3);
+
+      expect(() => linkedList.removeFromPosition(3)).toThrow(
+        /^Incorrect position$/
+      );
+    });
+  });
+
+  describe('.getIndexOf', () => {
+    test('should return "two"', () => {
+      const linkedList = new LinkedList();
+      const value = 'two';
+
+      linkedList.addToTheEnd(5);
+      linkedList.addToTheEnd(value);
+
+      const expectedIndex = linkedList.getIndexOf(value);
+
+      expect(expectedIndex).toBe(1);
+    });
+
+    test('should return -1 because not find value', () => {
+      const linkedList = new LinkedList();
+      const value = 'two';
+
+      linkedList.addToTheEnd(5);
+      linkedList.addToTheEnd(1);
+
+      const expectedIndex = linkedList.getIndexOf(value);
+
+      expect(expectedIndex).toBe(-1);
+    });
+  });
+
+  describe('.isEmpty', () => {
+    test('should return true because no added lists', () => {
+      const linkedList = new LinkedList();
+
+      expect(linkedList.isEmpty()).toBe(true);
+    });
+    test('should return false because list have item', () => {
+      const linkedList = new LinkedList();
+
+      linkedList.addToTheEnd(5);
+
+      expect(linkedList.isEmpty()).toBe(false);
+    });
+  });
+
+  describe('.getLength', () => {
+    test('should return 0 because no added lists', () => {
+      const linkedList = new LinkedList();
+
+      expect(linkedList.getLength()).toBe(0);
+    });
+    test('should return 1 because list have one item', () => {
+      const linkedList = new LinkedList();
+
+      linkedList.addToTheEnd(5);
+
+      expect(linkedList.getLength()).toBe(1);
     });
   });
 
   describe('.removeElementByValue', () => {
-    test('should return removed value', () => {
+    test('should return value removed item', () => {
       const linkedList = new LinkedList();
+      const testValue = 5;
+
       linkedList.addToTheEnd(2);
-      linkedList.addToTheEnd(4);
-      expect(linkedList.removeElementByValue(4)).toBe(4);
+      linkedList.addToTheEnd(testValue);
+      linkedList.addToTheEnd(8);
+
+      const expectValue = linkedList.removeElementByValue(testValue);
+      expect(expectValue).toBe(testValue);
+      expect(linkedList.getIndexOf(testValue)).toBe(-1);
+    });
+
+    test.skip('should throw error because list not have value', () => {
+      const linkedList = new LinkedList();
+
+      linkedList.addToTheEnd(3);
+
+      expect(() => linkedList.removeElementByValue(2)).toThrow(
+        /^List not have enter value$/
+      );
     });
   });
 
   describe('.getNodeByPosition', () => {
-    test('should return "Incorrect value of position"', () => {
+    test('should return value when entering a position', () => {
       const linkedList = new LinkedList();
+      const testValue = 3;
+
       linkedList.addToTheEnd(2);
-      expect(linkedList.getNodeByPosition(2)).toBe(
-        'Incorrect value of position'
+      linkedList.addToTheEnd(testValue);
+      linkedList.addToTheEnd(8);
+
+      const expectValue = linkedList.getNodeByPosition(1);
+      expect(expectValue).toBe(testValue);
+    });
+
+    test('should throw error because incorrect position', () => {
+      const linkedList = new LinkedList();
+
+      expect(() => linkedList.getNodeByPosition(-2)).toThrow(
+        /^Incorrect position$/
       );
     });
-
-    test('should return last item value equal 3', () => {
-      const linkedList = new LinkedList();
-      linkedList.addToTheEnd(2);
-      linkedList.addToTheEnd(3);
-      expect(linkedList.getNodeByPosition(1)).toBe(3);
-    });
   });
 
-  describe.each([
-    ['getLength', [0, 1]],
-    ['isEmpty', [true, false]],
-  ])('.%s', (method, expected) => {
-    test(`should return ${expected[0]}`, () => {
-      const linkedList = new LinkedList();
-      expect(linkedList[method]()).toBe(expected[0]);
-    });
+  // describe('.print', () => {
+  //   const spyConsoleLog = jest
+  //     .spyOn(console, 'log')
+  //     .mockImplementation(() => {});
 
-    test(`should return ${expected[1]}`, () => {
-      const linkedList = new LinkedList();
-      linkedList.addToTheEnd(1);
-      expect(linkedList[method]()).toBe(expected[1]);
-    });
-  });
+  //   afterAll(() => {
+  //     spyConsoleLog.mockRestore();
+  //   });
+
+  //   test.each([
+  //     [3, [1, 2, 3]],
+  //     [2, [4, 5]],
+  //   ])(
+  //     'should call console.log %i times in case %# ',
+  //     (expected, callStack) => {
+  //       const linkedList = new LinkedList();
+  //       callStack.forEach((count) => linkedList.addToTheEnd(count));
+  //       linkedList.print();
+  //       expect(spyConsoleLog).toHaveBeenCalledTimes(expected);
+  //       expect(spyConsoleLog).toHaveBeenLastCalledWith(
+  //         `Node: ${callStack[callStack.length - 1]}`
+  //       );
+  //     }
+  //   );
+  // });
+
+  // describe('.getNodeByPosition', () => {
+  //   test('should return "Incorrect value of position"', () => {
+  //     const linkedList = new LinkedList();
+  //     linkedList.addToTheEnd(2);
+  //     expect(linkedList.getNodeByPosition(2)).toBe(
+  //       'Incorrect value of position'
+  //     );
+  //   });
+
+  //   test('should return last item value equal 3', () => {
+  //     const linkedList = new LinkedList();
+  //     linkedList.addToTheEnd(2);
+  //     linkedList.addToTheEnd(3);
+  //     expect(linkedList.getNodeByPosition(1)).toBe(3);
+  //   });
+  // });
 });
