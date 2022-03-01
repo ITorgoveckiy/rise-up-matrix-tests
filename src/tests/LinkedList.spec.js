@@ -40,59 +40,47 @@ describe('LinkedList', () => {
     });
   });
   describe('.insertInPosition', () => {
-    test('should insert list at 0 position', () => {
-      const linkedList = new LinkedList();
-      const expectedFirstValue = 1;
-      const expectedSecondValue = 6;
-      const insertPosition = 0;
+    test.each([
+      [0, 1, 6],
+      [1, 2, 7],
+    ])(
+      'should insert list at %i position',
+      (position, expectedFirstValue, expectedSecondValue) => {
+        const linkedList = new LinkedList();
 
-      linkedList.addToTheEnd(5);
-      linkedList.addToTheEnd(expectedSecondValue);
-      linkedList.insertInPosition(insertPosition, expectedFirstValue);
+        linkedList.addToTheEnd(5);
+        linkedList.addToTheEnd(expectedSecondValue);
+        linkedList.insertInPosition(position, expectedFirstValue);
 
-      const firstValue = linkedList.getNodeByPosition(insertPosition);
-      const lastValue = linkedList.getNodeByPosition(2);
+        const firstValue = linkedList.getNodeByPosition(position);
+        const lastValue = linkedList.getNodeByPosition(2);
 
-      expect(firstValue).toEqual(expectedFirstValue);
-      expect(lastValue).toEqual(expectedSecondValue);
-    });
-
-    test('should insert list at 1 position', () => {
-      const linkedList = new LinkedList();
-      const expectedFirstValue = 2;
-      const expectedSecondValue = 7;
-      const insertPosition = 1;
-
-      linkedList.addToTheEnd(5);
-      linkedList.addToTheEnd(expectedSecondValue);
-      linkedList.insertInPosition(insertPosition, expectedFirstValue);
-
-      const firstValue = linkedList.getNodeByPosition(insertPosition);
-      const lastValue = linkedList.getNodeByPosition(2);
-
-      expect(firstValue).toEqual(expectedFirstValue);
-      expect(lastValue).toEqual(expectedSecondValue);
-    });
+        expect(firstValue).toEqual(expectedFirstValue);
+        expect(lastValue).toEqual(expectedSecondValue);
+      }
+    );
 
     test.skip('should throw error because incorrect position -1', () => {
       const linkedList = new LinkedList();
 
       expect(() => linkedList.insertInPosition(-1, 5)).toThrow(
-        /^Incorrect position$/
+        /^Incorrect negative position$/
       );
     });
     test.skip('should throw error because position is not number', () => {
       const linkedList = new LinkedList();
 
       expect(() => linkedList.insertInPosition('one', 5)).toThrow(
-        /^Incorrect position$/
+        /^Incorrect not number position$/
       );
     });
     test.skip('should throw error because position 3 greater than the length of the list', () => {
       const linkedList = new LinkedList();
 
+      linkedList.addToTheEnd(5);
+
       expect(() => linkedList.insertInPosition(3, 5)).toThrow(
-        /^Incorrect position$/
+        /^Incorrect position, value is greater than length list$/
       );
     });
   });
@@ -133,7 +121,7 @@ describe('LinkedList', () => {
       const linkedList = new LinkedList();
 
       expect(() => linkedList.removeFromPosition(-1)).toThrow(
-        /^Incorrect position$/
+        /^Incorrect negative position$/
       );
     });
 
@@ -143,34 +131,25 @@ describe('LinkedList', () => {
       linkedList.addToTheEnd(3);
 
       expect(() => linkedList.removeFromPosition(3)).toThrow(
-        /^Incorrect position$/
+        /^Incorrect position, value is greater than length list$/
       );
     });
   });
 
   describe('.getIndexOf', () => {
-    test('should return "two"', () => {
+    test.each([
+      ['"two"', 1, 'two'],
+      ['-1 because not find value', -1, 1],
+    ])('should return %s', (_, expected, addedValue) => {
       const linkedList = new LinkedList();
       const value = 'two';
 
       linkedList.addToTheEnd(5);
-      linkedList.addToTheEnd(value);
+      linkedList.addToTheEnd(addedValue);
 
-      const expectedIndex = linkedList.getIndexOf(value);
+      const index = linkedList.getIndexOf(value);
 
-      expect(expectedIndex).toBe(1);
-    });
-
-    test('should return -1 because not find value', () => {
-      const linkedList = new LinkedList();
-      const value = 'two';
-
-      linkedList.addToTheEnd(5);
-      linkedList.addToTheEnd(1);
-
-      const expectedIndex = linkedList.getIndexOf(value);
-
-      expect(expectedIndex).toBe(-1);
+      expect(index).toBe(expected);
     });
   });
 
@@ -218,13 +197,13 @@ describe('LinkedList', () => {
       expect(linkedList.getIndexOf(testValue)).toBe(-1);
     });
 
-    test.skip('should throw error because list not have value', () => {
+    test.skip('should throw error because list not have enter value', () => {
       const linkedList = new LinkedList();
 
       linkedList.addToTheEnd(3);
 
       expect(() => linkedList.removeElementByValue(2)).toThrow(
-        /^List not have enter value$/
+        /^List not have node with enter value$/
       );
     });
   });
@@ -246,7 +225,7 @@ describe('LinkedList', () => {
       const linkedList = new LinkedList();
 
       expect(() => linkedList.getNodeByPosition(-2)).toThrow(
-        /^Incorrect position$/
+        /^Incorrect negative position$/
       );
     });
   });
@@ -275,6 +254,7 @@ describe('LinkedList', () => {
       linkedList.print();
 
       expect(spyConsoleLog).not.toHaveBeenCalled();
+      expect(linkedList.isEmpty()).toBe(true);
     });
   });
 });
