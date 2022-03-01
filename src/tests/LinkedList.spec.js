@@ -242,7 +242,7 @@ describe('LinkedList', () => {
       expect(expectValue).toBe(testValue);
     });
 
-    test('should throw error because incorrect position', () => {
+    test.skip('should throw error because incorrect position', () => {
       const linkedList = new LinkedList();
 
       expect(() => linkedList.getNodeByPosition(-2)).toThrow(
@@ -251,46 +251,30 @@ describe('LinkedList', () => {
     });
   });
 
-  // describe('.print', () => {
-  //   const spyConsoleLog = jest
-  //     .spyOn(console, 'log')
-  //     .mockImplementation(() => {});
+  describe('.print', () => {
+    const spyConsoleLog = jest
+      .spyOn(console, 'log')
+      .mockImplementation(() => {});
 
-  //   afterAll(() => {
-  //     spyConsoleLog.mockRestore();
-  //   });
+    afterEach(() => {
+      spyConsoleLog.mockRestore();
+    });
 
-  //   test.each([
-  //     [3, [1, 2, 3]],
-  //     [2, [4, 5]],
-  //   ])(
-  //     'should call console.log %i times in case %# ',
-  //     (expected, callStack) => {
-  //       const linkedList = new LinkedList();
-  //       callStack.forEach((count) => linkedList.addToTheEnd(count));
-  //       linkedList.print();
-  //       expect(spyConsoleLog).toHaveBeenCalledTimes(expected);
-  //       expect(spyConsoleLog).toHaveBeenLastCalledWith(
-  //         `Node: ${callStack[callStack.length - 1]}`
-  //       );
-  //     }
-  //   );
-  // });
+    test('should call console.log with Node: 5', () => {
+      const linkedList = new LinkedList();
 
-  // describe('.getNodeByPosition', () => {
-  //   test('should return "Incorrect value of position"', () => {
-  //     const linkedList = new LinkedList();
-  //     linkedList.addToTheEnd(2);
-  //     expect(linkedList.getNodeByPosition(2)).toBe(
-  //       'Incorrect value of position'
-  //     );
-  //   });
+      linkedList.addToTheEnd(5);
+      linkedList.print();
 
-  //   test('should return last item value equal 3', () => {
-  //     const linkedList = new LinkedList();
-  //     linkedList.addToTheEnd(2);
-  //     linkedList.addToTheEnd(3);
-  //     expect(linkedList.getNodeByPosition(1)).toBe(3);
-  //   });
-  // });
+      expect(spyConsoleLog).toHaveBeenLastCalledWith('Node: 5');
+    });
+
+    test('should not call console.log because is empty list', () => {
+      const linkedList = new LinkedList();
+
+      linkedList.print();
+
+      expect(spyConsoleLog).not.toHaveBeenCalled();
+    });
+  });
 });
